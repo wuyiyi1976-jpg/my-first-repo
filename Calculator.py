@@ -1,14 +1,12 @@
-class Calculator:
-    def add(self, a, b):
-        return a + b
-
-    def subtract(self, a, b):
-        return a - b
-
-    def multiply(self, a, b):
-        return a * b
-
-    def divide(self, a, b):
-        if b == 0:
-            raise ValueError("Cannot divide by zero")
+def divide(a, b):
+    try:
         return a / b
+    except ZeroDivisionError:
+        return "Error: Division by zero is undefined. Please provide a non-zero divisor."
+    except TypeError:
+        return "Error: Invalid input types. Please provide numbers for division."
+
+# Example usage
+print(divide(10, 0))
+print(divide(10, 'a'))
+print(divide(10, 2))
