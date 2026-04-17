@@ -1,0 +1,32 @@
+name: AI PR 摘要
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 生成 PR 摘要
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const summary = `
+            🤖 **AI 自动摘要**
+            
+            - **变更文件数**: ${pr.changed_files}
+            - **新增行数**: +${pr.additions}
+            - **删除行数**: -${pr.deletions}
+            - **提交数**: ${pr.commits}
+            `;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: summary
+            });
